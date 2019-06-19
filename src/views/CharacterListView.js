@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CharacterList } from '../components';
@@ -12,9 +13,9 @@ const CharacterListView = props => {
 	}, []);
 
 	return (
-		<div className="CharactersList_wrapper">
+		<CharacterListViewStyled>
 			{fetching ? <div>Fetching data....</div> : <CharacterList characters={characters} />}
-		</div>
+		</CharacterListViewStyled>
 	);
 };
 
@@ -32,3 +33,9 @@ CharacterListView.propTypes = {
 	fetching: PropTypes.bool.isRequired,
 	fetchCharacters: PropTypes.func.isRequired
 };
+
+const CharacterListViewStyled = styled.div`
+	padding-top: 100px;
+	display: flex;
+	justify-content: center;
+`;
