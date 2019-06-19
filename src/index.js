@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
@@ -10,3 +11,7 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root')
 );
+
+Provider.propTypes = {
+	store: PropTypes.object.isRequired
+};

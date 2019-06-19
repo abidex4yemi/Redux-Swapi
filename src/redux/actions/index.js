@@ -24,7 +24,8 @@ export const fetchCharacters = () => dispatch => {
 			dispatch({
 				type: FAILURE,
 				payload: {
-					message: error.message
+					message: error.message,
+					fetching: false
 				}
 			});
 		});

@@ -1,7 +1,12 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Character = props => {
-  return <li>{props.character.name}</li>;
+const Character = ({ character }) => {
+	return <li>{character.name}</li>;
 };
 
 export default Character;
+
+Character.propTypes = {
+	character: PropTypes.object.isRequired
+};

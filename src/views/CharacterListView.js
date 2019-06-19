@@ -1,29 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { CharacterList } from '../components';
 import { fetchCharacters } from '../redux/actions';
 
-class CharacterListView extends React.Component {
-	constructor(props) {
-		super(props);
-	}
+const CharacterListView = props => {
+	const { characters, fetching, fetchCharacters } = props;
 
-	componentDidMount() {
-		this.props.fetchCharacters();
-	}
+	useEffect(() => {
+		fetchCharacters();
+	}, []);
 
-	render() {
-		const { characters, fetching } = this.props;
-		if (fetching) {
-			return <div>Fetching data....</div>;
-		}
-		return (
-			<div className="CharactersList_wrapper">
-				<CharacterList characters={characters} />
-			</div>
-		);
-	}
-}
+	return (
+		<div className="CharactersList_wrapper">
+			{fetching ? <div>Fetching data....</div> : <CharacterList characters={characters} />}
+		</div>
+	);
+};
 
 const mapStateToProps = state => {
 	return {
@@ -32,6 +25,10 @@ const mapStateToProps = state => {
 	};
 };
 
-// our mapStateToProps needs to have two properties inherited from state
-// the characters and the fetching boolean
 export default connect(mapStateToProps, { fetchCharacters })(CharacterListView);
+
+CharacterListView.propTypes = {
+	characters: PropTypes.array.isRequired,
+	fetching: PropTypes.bool.isRequired,
+	fetchCharacters: PropTypes.func.isRequired
+};
