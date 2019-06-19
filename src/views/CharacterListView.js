@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CharacterList } from '../components';
@@ -14,7 +15,13 @@ const CharacterListView = props => {
 
 	return (
 		<CharacterListViewStyled>
-			{fetching ? <div>Fetching data....</div> : <CharacterList characters={characters} />}
+			{fetching ? (
+				<div>
+					<Loader type="Circles" color="#7d5bbe" height="100" width="100" />{' '}
+				</div>
+			) : (
+				<CharacterList characters={characters} />
+			)}
 		</CharacterListViewStyled>
 	);
 };
