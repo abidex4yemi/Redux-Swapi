@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { CharacterListView } from './views';
 
-class App extends Component {
-	render() {
-		return <CharacterListView />;
-	}
-}
+const App = () => {
+	return <CharacterListView />;
+};
 
 export default App;
