@@ -3,20 +3,29 @@ import axios from 'axios';
 export const FETCHING = 'FETCHING';
 export const SUCCESS = 'SUCCESS';
 export const FAILURE = 'FAILURE';
-export const ADD_CHARACTERS = 'ADD_CHARACTERS';
-
-export const addCharacters = characters => {
-	return {
-		type: ADD_CHARACTERS,
-		payload: characters
-	};
-};
 
 export const fetchCharacters = () => dispatch => {
+	// trigger fetching
+	dispatch({ type: FETCHING, payload: true });
+
 	axios
 		.get('https://swapi.co/api/people/')
 		.then(res => {
-			dispatch(addCharacters(res.data));
+			dispatch({
+				type: SUCCESS,
+				payload: {
+					data: res.data.results,
+					fetching: false
+				}
+			});
 		})
-		.catch(error => error);
+		.catch(error => {
+			// trigger failure
+			dispatch({
+				type: FAILURE,
+				payload: {
+					message: error.message
+				}
+			});
+		});
 };
