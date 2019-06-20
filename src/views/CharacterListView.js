@@ -1,35 +1,48 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import Loader from 'react-loader-spinner';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { CharacterList } from '../components';
+import { fetchCharacters } from '../redux/actions';
 
-import { CharacterList } from "../components";
-// import actions
+const CharacterListView = props => {
+	const { characters, fetching, fetchCharacters } = props;
 
-class CharacterListView extends React.Component {
-  constructor() {
-    super();
-  }
+	useEffect(() => {
+		fetchCharacters();
+	}, []);
 
-  componentDidMount() {
-    // call our action
-  }
+	return (
+		<CharacterListViewStyled>
+			{fetching ? (
+				<div>
+					<Loader type="Circles" color="#7d5bbe" height="100" width="100" />{' '}
+				</div>
+			) : (
+				<CharacterList characters={characters} />
+			)}
+		</CharacterListViewStyled>
+	);
+};
 
-  render() {
-    if (this.props.fetching) {
-      // return something here to indicate that you are fetching data
-    }
-    return (
-      <div className="CharactersList_wrapper">
-        <CharacterList characters={this.props.characters} />
-      </div>
-    );
-  }
-}
+const mapStateToProps = state => {
+	return {
+		characters: state.charsReducer.characters,
+		fetching: state.charsReducer.fetching
+	};
+};
 
-// our mapStateToProps needs to have two properties inherited from state
-// the characters and the fetching boolean
-export default connect(
-  null /* mapStateToProps replaces null here */,
-  {
-    /* action creators go here */
-  }
-)(CharacterListView);
+export default connect(mapStateToProps, { fetchCharacters })(CharacterListView);
+
+CharacterListView.propTypes = {
+	characters: PropTypes.array.isRequired,
+	fetching: PropTypes.bool.isRequired,
+	fetchCharacters: PropTypes.func.isRequired
+};
+
+const CharacterListViewStyled = styled.div`
+	padding-top: 100px;
+	display: flex;
+	justify-content: center;
+`;
